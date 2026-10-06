@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 from board import InvalidMoveError
-from player import CPUPlayer
+from UnbeatablePlayer import CPUPlayer
 
 ####For Matplotlib info, I used primarily matplotlib.org documentation and Ecosia AI for debugging/functionality questions####
 

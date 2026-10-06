@@ -1,5 +1,5 @@
 from board import ConnectFourBoard, InvalidMoveError
-from player import ConsolePlayer, CPUPlayer
+from UnbeatablePlayer import ConsolePlayer, CPUPlayer
 
 class ConnectFourGame:
     """Represents a Connect 4 game. Manages board and players."""
