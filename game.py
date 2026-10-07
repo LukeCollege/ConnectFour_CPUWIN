@@ -19,7 +19,7 @@ class ConnectFourGame:
                     print("Invalid input, need 1 or 2")
             except ValueError:
                 print("Invalid input, need 1 or 2")
-                
+
         while True: #Runs while true
             try: #Tries a user input if they want a local console match or a CPU match
                 p2_type1=int(input("Enter 1 for P2 console, Enter 2 for P2 CPU: ")) #Prompts user to choose
@@ -91,7 +91,11 @@ class ConnectFourGame:
             # Get the next player's move
             move_is_invalid = True
             while move_is_invalid: # Keep trying until we get a valid move
-                col = current_player.move(board=self.board, opponent_symbol=self.player_1.symbol, diff = self.diff) #Included opponent_symbol and diff to be used in player.py
+                if current_player == self.player_1:
+                    opponent_sym = self.player_2.symbol
+                else:
+                    opponent_sym = self.player_1.symbol
+                col = current_player.move(board=self.board, opponent_symbol=opponent_sym, diff = "Super Hard") #Included opponent_symbol and diff to be used in player.py
                 try:
                     self.board.add_piece(col, current_player.symbol)
                     move_is_invalid = False # If we make it to this line, move was valid
