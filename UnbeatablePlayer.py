@@ -24,7 +24,7 @@ class ConsolePlayer(AbstractPlayer):
 class CPUPlayer(AbstractPlayer):
     def __init__(self, symbol, name):
         super().__init__(symbol, name) #Comes from AbstractPlayer class, purely for naming (self.name, self.symbol)
-        self.search_depth = 8 #How many moves ahead the AI will look, much more will cause time delays due to computation
+        self.search_depth = 4 #How many moves ahead the AI will look, much more will cause time delays due to computation
     
     def can_move(self, board, col): #Checks if a move is valid or not
         return 0 <= col < board.num_cols and board.rows[0][col] == ' ' #returns true if col is from 0 to num_cols and the column is empty
@@ -55,6 +55,61 @@ class CPUPlayer(AbstractPlayer):
                         return True
         return False
 
+    def evaluate_window(self, window, opponent_symbol):
+        score = 0
+
+        ai_count = window.count(self.symbol) #Counts number of bot pieces
+        opp_count = window.count(opponent_symbol) #Counts number of opponent pieces
+        empty_count = window.count(' ') #Counts empty spaces
+
+        if ai_count == 4: #If AI wins, give big score
+            score += 100
+
+        elif ai_count == 3 and empty_count == 1: #If AI is about to win, give it a decent score
+            score += 5
+
+        elif ai_count == 2 and empty_count == 2: #If AI is halfway, give it a moderate score
+            score += 2
+
+        if opp_count == 3 and empty_count == 1: #If human is one move away from winning, give a negative score
+            score -=4
+
+        return score
+
+    def evaluate_board(self, board, opponent_symbol):
+        score = 0 #Start with 0 score, add as we find good patterns
+
+        #CENTER CONTROL: Priority for bot
+        center_array=[board.rows[row][3] for row in range(board.num_rows)] #Array for column 3
+        center_count = center_array.count(self.symbol) #How many spaces belong to the AI
+        score += center_count * 3
+
+        #Horizontal Windows
+        for r in range(board.num_rows): #Each makes a window of horiz, vert, or diag, and checks where the best places to move will be based on window score, defined above
+            for c in range(board.num_cols - 3):
+                window = [board.rows[r][c+i] for i in range(4)] #Creates a group (window) of 4 cells left to right
+                score += self.evaluate_window(window, opponent_symbol)
+
+        #Vertical Windows
+        for c in range(board.num_cols):
+            for r in range(board.num_rows - 3):
+                window = [board.rows[r+i][c] for i in range(4)] #Creates vertical window
+                score += self.evaluate_window(window, opponent_symbol)
+
+        #Down right windows
+        for r in range(board.num_rows - 3):
+            for c in range(board.num_cols - 3):
+                window = [board.rows[r + i][c + i] for i in range(4)]
+                score += self.evaluate_window(window, opponent_symbol)
+
+        #Up right windows
+        for r in range(3, board.num_rows):
+            for c in range(board.num_cols - 3):
+                window = [board.rows[r-i][c+i] for i in range(4)]
+                score += self.evaluate_window(window, opponent_symbol)
+
+        return score #returns total score, if AI is winning -> Positive, if not -> negative
+
     
     def minimax(self, board, depth, alpha, beta, maximizing, opponent_symbol):
         #if self.check_outcome(board, maximizing, opponent_symbol):#Is not maximizing = human turn, trying to minimize human score
@@ -63,8 +118,11 @@ class CPUPlayer(AbstractPlayer):
             return float('inf') if not maximizing else float('-inf')
 
 
-        if board.is_full() or depth == 0:
+        if board.is_full():
             return 0
+
+        if depth == 0:
+            return self.evaluate_board(board, opponent_symbol)
 
 
         if maximizing: #It is the AI's turn, robot looking for highest score, WIN LOGIC
