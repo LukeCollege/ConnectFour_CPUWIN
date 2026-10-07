@@ -71,7 +71,7 @@ class ConnectFourGUI:
 
         if self.cpu_player and self.current_player == self.cpu_player: #If player 2 is CPU
             while True:
-                cpu_col = self.cpu_player.move(board=self.board, opponent_symbol=self.player_1.symbol, diff = self.game.diff) #Use CPU class from player.py
+                cpu_col = self.cpu_player.move(board=self.board, opponent_symbol=self.player_1.symbol, diff = "Super Hard") #Use CPU class from player.py
                 try:
                     self.board.add_piece(cpu_col, self.cpu_player.symbol) #Try adding a piece
                     break
