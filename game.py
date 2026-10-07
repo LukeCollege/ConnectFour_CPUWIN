@@ -4,8 +4,22 @@ from UnbeatablePlayer import ConsolePlayer, CPUPlayer
 class ConnectFourGame:
     """Represents a Connect 4 game. Manages board and players."""
 
-    def __init__(self, rows=6, cols=7, p1_type=ConsolePlayer, p2_type=ConsolePlayer, diff = "Easy"):
+    def __init__(self, rows=6, cols=7, p1_type=ConsolePlayer, p2_type=ConsolePlayer, diff = "Super Hard"):
         """Initialize a new game"""
+        while True:
+            try:
+                p1_type1 = int(input("Enter 1 for P1 console, Enter 2 for P1 CPU: "))
+                if p1_type1 == 1:
+                    p1_type = ConsolePlayer
+                    break
+                elif p1_type1 == 2:
+                    p1_type = CPUPlayer
+                    break
+                else:
+                    print("Invalid input, need 1 or 2")
+            except ValueError:
+                print("Invalid input, need 1 or 2")
+                
         while True: #Runs while true
             try: #Tries a user input if they want a local console match or a CPU match
                 p2_type1=int(input("Enter 1 for P2 console, Enter 2 for P2 CPU: ")) #Prompts user to choose
@@ -20,24 +34,24 @@ class ConnectFourGame:
             except ValueError: #Value error raised, prompts user again
                 print("Invalid Input, need 1 or 2")
 
-        while True: #Second while true loop to choose difficulty of game
-            try: #Another try-catch statement for difficulty
-                diff=int(input("Choose a difficulty - 1:Easy, 2:Medium, 3:Hard, or 4:Super Hard: ")) #Prompts user to choose difficulty, casts to int
-                if diff == 1: #If user types 1
-                    self.diff = "Easy" #Difficulty set to easy
-                    break #Break while true loop
-                elif diff == 2: #if user types 2
-                    self.diff = "Medium" #Difficulty set to medium
-                    break #Break while true loop 
-                elif diff == 3: #If user types 3 
-                    self.diff = "Hard" #Difficulty set to hard
-                    break #Break while true loop
-                elif diff == 4:  #If the user types 4
-                    self.diff = "Super Hard" #Difficulty set to super hard
-                    break #Break while true loop
-                else: print("Invalid input, retype 1, 2, 3, or 4 for Easy, Medium, Hard, or Super Hard difficulty respectively") #If 1, 2, 3, or 4 is not inputted
-            except ValueError: #Raises ValueError if unexpected input is caught
-                print("Invalid input, retype 1, 2, 3, or 4 for Easy, Medium, Hard, or Super Hard difficulty respectively") #Same as before
+        # while True: #Second while true loop to choose difficulty of game
+        #     try: #Another try-catch statement for difficulty
+        #         diff=int(input("Choose a difficulty - 1:Easy, 2:Medium, 3:Hard, or 4:Super Hard: ")) #Prompts user to choose difficulty, casts to int
+        #         if diff == 1: #If user types 1
+        #             self.diff = "Easy" #Difficulty set to easy
+        #             break #Break while true loop
+        #         elif diff == 2: #if user types 2
+        #             self.diff = "Medium" #Difficulty set to medium
+        #             break #Break while true loop 
+        #         elif diff == 3: #If user types 3 
+        #             self.diff = "Hard" #Difficulty set to hard
+        #             break #Break while true loop
+        #         elif diff == 4:  #If the user types 4
+        #             self.diff = "Super Hard" #Difficulty set to super hard
+        #             break #Break while true loop
+        #         else: print("Invalid input, retype 1, 2, 3, or 4 for Easy, Medium, Hard, or Super Hard difficulty respectively") #If 1, 2, 3, or 4 is not inputted
+        #     except ValueError: #Raises ValueError if unexpected input is caught
+        #         print("Invalid input, retype 1, 2, 3, or 4 for Easy, Medium, Hard, or Super Hard difficulty respectively") #Same as before
 
         # Set up board
         self.board = ConnectFourBoard(rows, cols)
