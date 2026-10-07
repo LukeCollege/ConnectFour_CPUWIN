@@ -24,7 +24,7 @@ class ConsolePlayer(AbstractPlayer):
 class CPUPlayer(AbstractPlayer):
     def __init__(self, symbol, name):
         super().__init__(symbol, name) #Comes from AbstractPlayer class, purely for naming (self.name, self.symbol)
-        self.search_depth = 4 #How many moves ahead the AI will look, much more will cause time delays due to computation
+        self.search_depth = 5 #How many moves ahead the AI will look, much more will cause time delays due to computation
     
     def can_move(self, board, col): #Checks if a move is valid or not
         return 0 <= col < board.num_cols and board.rows[0][col] == ' ' #returns true if col is from 0 to num_cols and the column is empty
