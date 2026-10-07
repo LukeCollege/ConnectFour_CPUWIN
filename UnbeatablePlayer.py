@@ -66,6 +66,7 @@ class CPUPlayer(AbstractPlayer):
         if board.is_full() or depth == 0:
             return 0
 
+
         if maximizing: #It is the AI's turn, robot looking for highest score, WIN LOGIC
             max_eval = float('-inf') #If I get a score better than this, I want it
             for col in range(board.num_cols):
