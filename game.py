@@ -34,7 +34,7 @@ class ConnectFourGame:
             except ValueError: #Value error raised, prompts user again
                 print("Invalid Input, need 1 or 2")
         while True:
-                    interface_choice = int(input("Choose interface: 1-Console, 2-GUI"))
+                    interface_choice = int(input("Choose interface: 1-Console, 2-GUI: "))
                     if interface_choice == 1:
                         self.interface = "console"
                         break
