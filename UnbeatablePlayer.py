@@ -74,6 +74,9 @@ class CPUPlayer(AbstractPlayer):
         if opp_count == 3 and empty_count == 1: #If human is one move away from winning, give a negative score
             score -=4
 
+        if opp_count == 4:
+            score -=100
+
         return score
 
     def evaluate_board(self, board, opponent_symbol):
@@ -114,9 +117,6 @@ class CPUPlayer(AbstractPlayer):
     def minimax(self, board, depth, alpha, beta, maximizing, opponent_symbol):
         #if self.check_outcome(board, maximizing, opponent_symbol):#Is not maximizing = human turn, trying to minimize human score
         #    return float('inf') if not maximizing else float('-inf') #Is maximizing = AI turn, trying to maximize score to beat human
-        if board.check_winner():
-            return float('inf') if not maximizing else float('-inf')
-
 
         if board.is_full():
             return 0
