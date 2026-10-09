@@ -63,19 +63,19 @@ class CPUPlayer(AbstractPlayer):
         empty_count = window.count(' ') #Counts empty spaces
 
         if ai_count == 4: #If AI wins, give big score
-            score += 100
+            score += 1000
 
         elif ai_count == 3 and empty_count == 1: #If AI is about to win, give it a decent score
-            score += 5
+            score += 50
 
         elif ai_count == 2 and empty_count == 2: #If AI is halfway, give it a moderate score
-            score += 2
+            score += 10
 
         if opp_count == 3 and empty_count == 1: #If human is one move away from winning, give a negative score
-            score -=4
+            score -=50
 
         if opp_count == 4:
-            score -=100
+            score -=1000
 
         return score
 
@@ -176,6 +176,8 @@ class CPUPlayer(AbstractPlayer):
             if score > best_score: 
                 best_score = score #Finds best score, thus best move
                 best_col = col #makes best move based on best col
+                print("best score:", best_score)
+                print("best col:", best_col)
         return best_col if best_col is not None else valid_cols[0] #Return best move based on minimax
 
 
