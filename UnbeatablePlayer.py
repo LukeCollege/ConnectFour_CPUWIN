@@ -24,7 +24,7 @@ class ConsolePlayer(AbstractPlayer):
 class CPUPlayer(AbstractPlayer):
     def __init__(self, symbol, name):
         super().__init__(symbol, name) #Comes from AbstractPlayer class, purely for naming (self.name, self.symbol)
-        self.search_depth = 5 #How many moves ahead the AI will look, much more will cause time delays due to computation
+        self.search_depth = 6 #How many moves ahead the AI will look, much more will cause time delays due to computation
     
     def can_move(self, board, col): #Checks if a move is valid or not
         return 0 <= col < board.num_cols and board.rows[0][col] == ' ' #returns true if col is from 0 to num_cols and the column is empty
@@ -36,6 +36,10 @@ class CPUPlayer(AbstractPlayer):
                 break
 
     def check_outcome(self, board, maximizing, opponent_symbol):
+
+        if board.check_winner():
+            return True
+        
         if maximizing: #Same as other player win logic, If can win: place here
             for col in range(board.num_cols):
                 if self.can_move(board, col):
@@ -72,7 +76,7 @@ class CPUPlayer(AbstractPlayer):
             score += 10
 
         if opp_count == 3 and empty_count == 1: #If human is one move away from winning, give a negative score
-            score -=50
+            score -= 40
 
         if opp_count == 4:
             score -=1000
@@ -116,7 +120,7 @@ class CPUPlayer(AbstractPlayer):
     
     def minimax(self, board, depth, alpha, beta, maximizing, opponent_symbol):
         #if self.check_outcome(board, maximizing, opponent_symbol):#Is not maximizing = human turn, trying to minimize human score
-        #    return float('inf') if not maximizing else float('-inf') #Is maximizing = AI turn, trying to maximize score to beat human
+            #return float('inf') if not maximizing else float('-inf') #Is maximizing = AI turn, trying to maximize score to beat human
 
         if board.is_full():
             return 0
@@ -156,6 +160,22 @@ class CPUPlayer(AbstractPlayer):
         valid_cols = [col for col in range(board.num_cols) if self.can_move(board, col)] #Determines if input column is valid via helper function
         if not valid_cols:
             return 0
+
+        # for col in range(board.num_cols):
+        #     if self.can_move(board, col):
+        #         temp_board = ConnectFourBoard(board.num_rows, board.num_cols)
+        #         temp_board.rows = [row[:] for row in board.rows]
+        #         temp_board.add_piece(col, self.symbol)
+        #         if temp_board.check_winner():
+        #             return col
+
+        # for col in range(board.num_cols):
+        #             if self.can_move(board, col):
+        #                 temp_board = ConnectFourBoard(board.num_rows, board.num_cols)
+        #                 temp_board.rows = [row[:] for row in board.rows]
+        #                 temp_board.add_piece(col, opponent_symbol)
+        #                 if temp_board.check_winner():
+        #                     return col
 
         empty_board = True #If it is the first move of the game, Play in the 3rd column
         for row in range(board.num_rows): 
